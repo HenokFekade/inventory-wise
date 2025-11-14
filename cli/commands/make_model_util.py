@@ -1,7 +1,7 @@
-from xml.parsers.expat import model
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate model util files")
@@ -12,6 +12,18 @@ def make_model_util():
     
     model_utils_path = Path("utils/models")
     model_utils_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = Path("utils") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+
+    dependency_path = Path("utils/models")
+    dependency_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = dependency_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     file_path = model_utils_path / f"base_model.py"
 
     # Check if model util already exists

@@ -1,13 +1,9 @@
-import os
-from pathlib import Path
-
-from rich.console import Console
 import typer
-
-from utils.run_command_on_python import run_command_on_python
-from commands.make_virtual_environment import make_virtual_environment
 from commands.install_fastapi import install_fastapi
 from commands.make_gitignore import make_gitignore
+from commands.make_virtual_environment import make_virtual_environment
+from rich.console import Console
+from utils.run_command_on_python import run_command_on_python
 
 app = typer.Typer(help="Initialize a FastAPI project")
 console = Console()
@@ -27,17 +23,25 @@ def init_fastapi(
     # create main.py
     console.print("[bold green]Creating main.py...[/bold green]")
     with open("main.py", "w") as f:
-        f.write(f'''from fastapi import FastAPI
+        f.write(f'''from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+# add start app things to be done
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    yield
 
 # initialize server
 app = FastAPI(lifespan=lifespan, title="{name} API")
 
 @app.get("/health")
 def health():
-    return {
+    return {{
         "status": 200,
-        "message": f"{name} API Server is running successfully",
-    }
+        "message": "{name} API Server is running successfully",
+    }}
+
 ''')
         
     # create requirements.txt

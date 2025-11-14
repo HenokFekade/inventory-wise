@@ -2,7 +2,8 @@ from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Config(BaseSettings):
-    DATABASE_URL: PostgresDsn 
+    DATABASE_URL: PostgresDsn
+    AUTH_JWT_SECRET_KEY: str
 
     model_config = SettingsConfigDict(case_sensitive=True, env_file='.env', env_file_encoding='utf-8')
 

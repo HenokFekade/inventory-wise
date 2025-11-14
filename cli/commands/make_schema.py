@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate schema files")
@@ -11,10 +12,23 @@ def make_schema(
     resource: bool = typer.Option(False, "-r", "--resource", help="Create a resourceful schema with controller")
 ):
     """Create a new schema (optionally with controller using -r flag)."""
-    
+
+    init_file_path = Path("apps") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+          
     schemas_path = Path(f"apps/{name.lower()}/schemas")
     schemas_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = schemas_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     file_path = schemas_path / f"{name.lower()}.py"
+
+    init_file_path = schemas_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
 
     # Check if schema already exists
     if file_path.exists():

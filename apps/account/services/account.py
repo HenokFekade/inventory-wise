@@ -1,10 +1,9 @@
 from typing import Optional
-from uuid import UUID
 
 from apps.account.models.account import AccountModel
 from apps.account.repositories.account import AccountRepository
 from apps.account.schemas.account import AccountsResponseSchema, AccountSchema, AccountResponseSchema, \
-    CreateAccountSchema, CreateAccountModelSchema, UpdateAccountSchema, UpdateAccountModelSchema
+    CreateAccountSchema, CreateAccountModelSchema, UpdateAccountSchema, UpdateAccountModelSchema, ChangePasswordSchema
 from utils.enums.account_role import AccountRole
 
 
@@ -50,6 +49,18 @@ class AccountService:
         return AccountResponseSchema(
             data=AccountSchema.model_validate(data),
             message="Account updated successfully",
+        )
+
+    async def change_password(
+            self,
+            account: AccountModel,
+            data: ChangePasswordSchema,
+    ) -> AccountResponseSchema:
+        data = UpdateAccountModelSchema(password=data.password, password_change_required=False)
+        data = await self._repo.update(data=data, _id=account.id)
+        return AccountResponseSchema(
+            data=AccountSchema.model_validate(data),
+            message="Password changed successfully",
         )
 
     async def delete(self, data: AccountModel) -> AccountResponseSchema:

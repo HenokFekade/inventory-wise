@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate model files")
@@ -11,10 +12,23 @@ def make_model(
     resource: bool = typer.Option(False, "-r", "--resource", help="Create a resourceful model with controller")
 ):
     """Create a new model (optionally with controller using -r flag)."""
-    
+
+    init_file_path = Path("apps") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     models_path = Path(f"apps/{name.lower()}/models")
     models_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = models_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+    
     file_path = models_path / f"{name.lower()}.py"
+
+    init_file_path = models_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
 
     # Check if model already exists
     if file_path.exists():

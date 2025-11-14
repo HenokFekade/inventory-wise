@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate repository files")
@@ -11,10 +12,23 @@ def make_repository(
     resource: bool = typer.Option(False, "-r", "--resource", help="Create a resourceful repository with repository")
 ):
     """Create a new repository (optionally with repository using -r flag)."""
-    
+
+    init_file_path = Path("apps") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     repositories_path = Path(f"apps/{name.lower()}/repositories")
     repositories_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = repositories_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+
     file_path = repositories_path / f"{name.lower()}.py"
+
+    init_file_path = repositories_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
 
     # Check if repository already exists
     if file_path.exists():

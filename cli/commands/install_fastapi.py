@@ -7,4 +7,4 @@ app = typer.Typer(help="Install FastAPI package")
 
 @app.command()
 def install_fastapi():
-    install_package("fastapi")
+    install_package('"fastapi[standard]"')

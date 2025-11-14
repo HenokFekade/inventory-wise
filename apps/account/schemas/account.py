@@ -1,6 +1,7 @@
+import re
 from typing import Optional, List
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator, ValidationInfo
 
 from utils.enums.account_role import AccountRole
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
@@ -15,6 +16,15 @@ class CreateAccountSchema(BaseModel):
     image: Optional[str] = None
     password: str
 
+    @field_validator('phone')
+    @classmethod
+    def check_phone_is_ethiopian(cls, v: str) -> str:
+        if not re.match(r"^(\+251|0|251)([97])[0-9]{8}$", v):
+            raise ValueError("Invalid ethiopian phone number")
+        # replace +251 or 251 or 0 to +251
+        v = re.sub(r"^(\+251|0|251)", "+251", v)
+        return v
+
 class CreateAccountModelSchema(CreateAccountSchema):
     pass
 
@@ -26,9 +36,34 @@ class UpdateAccountSchema(BaseModel):
     email: EmailStr
     image: Optional[str] = None
     password: Optional[str] = None
+    is_active: Optional[bool] = None
+
+    @field_validator('phone')
+    @classmethod
+    def check_phone_is_ethiopian(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        if not re.match(r"^(\+251|0|251)([97])[0-9]{8}$", v):
+            raise ValueError("Invalid ethiopian phone number")
+        # replace +251 or 251 or 0 to +251
+        v = re.sub(r"^(\+251|0|251)", "+251", v)
+        return v
 
 class UpdateAccountModelSchema(UpdateAccountSchema):
-    pass
+    password_change_required: Optional[bool] = None
+
+
+class ChangePasswordSchema(BaseModel):
+    password: str
+    new_password: str
+    confirm_password: str
+
+    @field_validator('confirm_password')
+    @classmethod
+    def check_confirm_password(cls, v: str, values: ValidationInfo) -> str:
+        if v != values.data.get('new_password'):
+            raise ValueError("Passwords do not match")
+        return v
 
 class AccountSchema(BaseSchema):
     first_name: str

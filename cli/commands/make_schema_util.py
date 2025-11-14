@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate schema util files")
@@ -10,6 +11,18 @@ def make_schema_util():
     """Create a new schema util (optionally with controller using -r flag)."""
     
     schema_utils_path = Path("utils/schemas")
+
+    init_file_path = Path("utils") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+
+    dependency_path = Path("utils/schemas")
+    dependency_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = dependency_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     schema_utils_path.mkdir(parents=True, exist_ok=True)
     file_path = schema_utils_path / f"base_schema.py"
 

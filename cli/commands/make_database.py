@@ -1,14 +1,8 @@
-import os
 from pathlib import Path
 
-from rich.console import Console
 import typer
-
-from utils.run_command_on_python import run_command_on_python
+from rich.console import Console
 from utils.install_package import install_package
-from commands.make_virtual_environment import make_virtual_environment
-from commands.install_fastapi import install_fastapi
-from commands.make_gitignore import make_gitignore
 
 app = typer.Typer(help="Generate database setup for FastAPI project")
 console = Console()
@@ -21,9 +15,15 @@ def make_database():
     
     # install SQLAlchemy package
     install_package("SQLAlchemy")
+    install_package("asyncpg")
     
     # create database.py inside connections folder
     connections_path = Path("connections")
+
+    init_file_path = Path("connections") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     connections_path.mkdir(parents=True, exist_ok=True)
     db_file_path = connections_path / "database.py"
     

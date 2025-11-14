@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import typer
 from rich.console import Console
-from pathlib import Path
 
 console = Console()
 app = typer.Typer(help="Generate controller files")
@@ -11,10 +12,23 @@ def make_controller(
     resource: bool = typer.Option(False, "-r", "--resource", help="Create a resourceful controller with controller")
 ):
     """Create a new controller (optionally with controller using -r flag)."""
-    
+
+    init_file_path = Path("apps") / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+        
     controllers_path = Path(f"apps/{name.lower()}/controllers")
     controllers_path.mkdir(parents=True, exist_ok=True)
+
+    init_file_path = controllers_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
+    
     file_path = controllers_path / f"{name.lower()}.py"
+
+    init_file_path = controllers_path / "__init__.py"
+    if not init_file_path.exists():
+        init_file_path.write_text("")
 
     # Check if controller already exists
     if file_path.exists():
