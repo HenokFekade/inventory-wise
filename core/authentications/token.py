@@ -20,9 +20,10 @@ class TokenAuth:
     def __init__(self, session: AsyncSession):
         self._session = session
 
-    def admin_token(self, _id: UUID, role: AccountRole) -> TokenSchema:
+    @classmethod
+    def admin_token(cls, _id: UUID, role: AccountRole) -> TokenSchema:
         data = {"id": str(_id), "role": role.value, "type": TokenType.access_token.value}
-        token = jwt.encode(data, self._AUTH_JWT_SECRET_KEY, algorithm=self._ALGORITHM)
+        token = jwt.encode(data, cls._AUTH_JWT_SECRET_KEY, algorithm=cls._ALGORITHM)
         return TokenSchema(access_token=token)
 
     def decode(self, token: str) -> dict:

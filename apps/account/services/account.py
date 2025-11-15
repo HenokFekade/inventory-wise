@@ -5,6 +5,7 @@ from apps.account.repositories.account import AccountRepository
 from apps.account.schemas.account import AccountsResponseSchema, AccountSchema, AccountResponseSchema, \
     CreateAccountSchema, CreateAccountModelSchema, UpdateAccountSchema, UpdateAccountModelSchema, ChangePasswordSchema
 from utils.enums.account_role import AccountRole
+from utils.password import PasswordHelper
 
 
 class AccountService:
@@ -36,6 +37,7 @@ class AccountService:
         return AccountResponseSchema(data=AccountSchema.model_validate(data))
 
     async def store(self, data: CreateAccountSchema) -> AccountResponseSchema:
+        data.password = PasswordHelper.hash(data.password)
         data = await self._repo.store(CreateAccountModelSchema(**data.model_dump()))
         return AccountResponseSchema(
             data=AccountSchema.model_validate(data),
@@ -45,6 +47,8 @@ class AccountService:
 
     async def update(self, account: AccountModel, data: UpdateAccountSchema) -> AccountResponseSchema:
         data = UpdateAccountModelSchema(**data.model_dump())
+        if data.password:
+            data.password = PasswordHelper.hash(data.password)
         data = await self._repo.update(data=data, _id=account.id)
         return AccountResponseSchema(
             data=AccountSchema.model_validate(data),
@@ -56,6 +60,7 @@ class AccountService:
             account: AccountModel,
             data: ChangePasswordSchema,
     ) -> AccountResponseSchema:
+        data.password = PasswordHelper.hash(data.password)
         data = UpdateAccountModelSchema(password=data.password, password_change_required=False)
         data = await self._repo.update(data=data, _id=account.id)
         return AccountResponseSchema(
