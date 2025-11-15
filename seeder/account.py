@@ -14,13 +14,14 @@ async def account_seeder():
             data = AccountModel(
                 first_name="Super", # type: ignore
                 last_name="Admin", # type: ignore
-                email="emun.superadmin@gmail.com", # type: ignore
+                email="superadmin@gmail.com", # type: ignore
                 phone="+251912345678", # type: ignore
                 password=PasswordHelper.hash("P@ssw0rd"), # type: ignore
                 role=AccountRole.super_admin, # type: ignore
                 is_active=True, # type: ignore
+                password_change_required=True # type: ignore
             )
-            await session.add(data)
+            session.add(data)
             await session.commit()
             print(f'Default account created with email: "{data.email}" and password: "passw0rd"')
         else:

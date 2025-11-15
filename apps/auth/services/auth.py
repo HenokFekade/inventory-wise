@@ -21,7 +21,5 @@ class AuthService:
         token = TokenAuth.admin_token(role=account.role, _id=account.id)
         return AdminAuthResponseSchema(
             data=AccountSchema.model_validate(account),
-            token=TokenSchema(access_token=token)
+            token=token
         )
-
-

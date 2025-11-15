@@ -1,5 +1,3 @@
-import secrets
-
 from passlib.context import CryptContext
 
 
@@ -8,6 +6,7 @@ class PasswordHelper:
 
     @classmethod
     def hash(cls, value: str) -> str:
+        print(value)
         return cls._pwd_context.hash(value)
 
     @classmethod
