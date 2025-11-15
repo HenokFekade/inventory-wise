@@ -16,3 +16,4 @@ class AdminAuthResponseSchema(BaseResponseSchema):
     token: TokenSchema
     message: str = "You have successfully logged in"
     status: int = 200
+
