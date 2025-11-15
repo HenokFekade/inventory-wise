@@ -10,6 +10,7 @@ console = Console()
 @app.command()
 def dependency_service(
         name: str = typer.Argument(..., help="Name of the service"),
+        folder: str = typer.Option(None, help="Folder where the service is located"),
 ):
     """Generate service dependency setup for FastAPI project."""
 
@@ -33,6 +34,15 @@ def dependency_service(
     if not init_file_path.exists():
         with open(init_file_path, "w") as f:
             f.write("")
+
+    if folder:
+        folder_path = dependency_path / folder
+        folder_path.mkdir(parents=True, exist_ok=True)
+        init_file_path = folder_path / "__init__.py"
+        if not init_file_path.exists():
+            init_file_path.write_text("")
+        dependency_path = folder_path
+
     service_dependency_file_path = dependency_path / f"{name.lower()}_service.py"
 
     with open(service_dependency_file_path, "w") as f:
@@ -40,7 +50,7 @@ def dependency_service(
 
 from apps.{name.lower()}.repositories.{name.lower()} import {name.title().replace("_", "")}Repository
 from apps.{name.lower()}.services.{name.lower()} import {name.title().replace("_", "")}Service
-from core.dependencies.{name.lower()}_repo import {name.lower()}_repo_dep
+from core.dependencies.{"" if not folder else f"{folder}."}{name.lower()}_repo import {name.lower()}_repo_dep
 
 def {name.lower()}_service_dep(repo: {name.title().replace("_", "")}Repository = Depends({name.lower()}_repo_dep)) -> {name.title().replace("_", "")}Service:
     return {name.title().replace("_", "")}Service(repo)

@@ -23,11 +23,13 @@ from commands.make_schema import make_schema
 from commands.make_schema_util import make_schema_util
 from commands.make_service import make_service
 from commands.make_virtual_environment import make_virtual_environment
+from commands.model_binding import model_binding
 
 app = typer.Typer(help="A CLI tool for FASTAPI applications. Inspired by Laravel's Artisan.")
 console = Console()
 
 # Register commands directly
+app.command("model:binding")(model_binding)
 app.command("make:model:util")(make_model_util)
 app.command("make:schema:util")(make_schema_util)
 app.command("make:exception")(make_exception)

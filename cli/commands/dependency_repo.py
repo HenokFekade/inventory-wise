@@ -10,6 +10,7 @@ console = Console()
 @app.command()
 def dependency_repo(
         name: str = typer.Argument(..., help="Name of the repository"),
+        folder: str = typer.Option(None, help="Folder where the repository is located"),
 ):
     """Generate repo dependency setup for FastAPI project."""
 
@@ -33,6 +34,15 @@ def dependency_repo(
     if not init_file_path.exists():
         with open(init_file_path, "w") as f:
             f.write("")
+
+    if folder:
+        folder_path = dependency_path / folder
+        folder_path.mkdir(parents=True, exist_ok=True)
+        init_file_path = folder_path / "__init__.py"
+        if not init_file_path.exists():
+            init_file_path.write_text("")
+        dependency_path = folder_path
+        
     repo_dependency_file_path = dependency_path / f"{name.lower()}_repo.py"
 
     with open(repo_dependency_file_path, "w") as f:

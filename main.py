@@ -27,6 +27,7 @@ def health():
 
 v1_router = APIRouter(prefix="/api/v1")
 v1_router.include_router(account_router)
+app.include_router(v1_router)
 
 
 # handle exceptions

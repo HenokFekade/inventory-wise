@@ -7,7 +7,7 @@ from apps.account.models.account import AccountModel
 from apps.account.schemas.account import AccountsResponseSchema, AccountResponseSchema, UpdateAccountSchema, \
     ChangePasswordSchema, CreateAccountSchema
 from core.authentications.super_admin import super_admin_dep
-from core.dependencies import account_controller_dep
+from core.dependencies import account_controller_dep, account_model_binding
 from utils.enums.account_role import AccountRole
 
 account_router = APIRouter(prefix="/accounts", tags=["Account"])
@@ -53,7 +53,7 @@ async def change_password(
 
 @account_router.get("/{id}", response_model=AccountResponseSchema)
 async def get_by_id(
-        account: AccountModel = Depends(),
+        account: AccountModel = Depends(account_model_binding),
         controller: AccountController = Depends(account_controller_dep),
         _=Depends(super_admin_dep),
 ):
@@ -63,7 +63,7 @@ async def get_by_id(
 @account_router.patch("/{id}", response_model=AccountResponseSchema)
 async def update(
         data: UpdateAccountSchema,
-        account: AccountModel = Depends(),
+        account: AccountModel = Depends(account_model_binding),
         controller: AccountController = Depends(account_controller_dep),
         _=Depends(super_admin_dep),
 ):
@@ -72,7 +72,7 @@ async def update(
 
 @account_router.delete("/{id}", response_model=AccountResponseSchema)
 async def update(
-        account: AccountModel = Depends(),
+        account: AccountModel = Depends(account_model_binding),
         controller: AccountController = Depends(account_controller_dep),
         _=Depends(super_admin_dep),
 ):
