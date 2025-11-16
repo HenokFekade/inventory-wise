@@ -7,7 +7,8 @@ from apps.account.models.account import AccountModel
 from apps.account.schemas.account import AccountsResponseSchema, AccountResponseSchema, UpdateAccountSchema, \
     ChangePasswordSchema, CreateAccountSchema
 from core.authentications.super_admin import super_admin_dep
-from core.dependencies import account_controller_dep, account_model_binding
+from core.dependencies import account_controller_dep, account_model_binding, create_account_validator_dep, \
+    update_account_validator_dep
 from utils.enums.account_role import AccountRole
 
 account_router = APIRouter(prefix="/accounts", tags=["Account"])
@@ -35,7 +36,7 @@ async def index(
 
 @account_router.post("", response_model=AccountResponseSchema, status_code=201)
 async def create_account(
-        data: CreateAccountSchema,
+        data: CreateAccountSchema = Depends(create_account_validator_dep),
         controller: AccountController = Depends(account_controller_dep),
         _=Depends(super_admin_dep),
 ):
@@ -55,15 +56,15 @@ async def change_password(
 async def get_by_id(
         account: AccountModel = Depends(account_model_binding),
         controller: AccountController = Depends(account_controller_dep),
-        _=Depends(super_admin_dep),
+        current_account: AccountModel = Depends(super_admin_dep),
 ):
-    return await controller.by_id(account)
+    return await controller.by_id(account=account, account_id=current_account.id)
 
 
 @account_router.patch("/{id}", response_model=AccountResponseSchema)
 async def update(
-        data: UpdateAccountSchema,
         account: AccountModel = Depends(account_model_binding),
+        data: UpdateAccountSchema = Depends(update_account_validator_dep),
         controller: AccountController = Depends(account_controller_dep),
         _=Depends(super_admin_dep),
 ):

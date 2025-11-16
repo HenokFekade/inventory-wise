@@ -6,6 +6,7 @@ from commands.dependency_controller import dependency_controller
 from commands.dependency_db import dependency_db
 from commands.dependency_repo import dependency_repo
 from commands.dependency_service import dependency_service
+from commands.dependency_validator import dependency_validator
 from commands.init_fastapi import init_fastapi
 from commands.install_fastapi import install_fastapi
 from commands.make_auth import make_auth
@@ -37,6 +38,7 @@ app.command("auth:init")(auth_init)
 app.command("make:auth")(make_auth)
 app.command("dependency:db")(dependency_db)
 app.command("dependency:repo")(dependency_repo)
+app.command("dependency:validator")(dependency_validator)
 app.command("make:route")(make_route)
 app.command("make:module")(make_module)
 app.command("make:model")(make_model)

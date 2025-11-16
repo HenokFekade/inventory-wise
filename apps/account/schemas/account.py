@@ -26,7 +26,7 @@ class CreateAccountSchema(BaseModel):
         return v
 
 class CreateAccountModelSchema(CreateAccountSchema):
-    pass
+    password_change_required: bool
 
 class UpdateAccountSchema(BaseModel):
     first_name: Optional[str] = None

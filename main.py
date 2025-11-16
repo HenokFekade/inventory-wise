@@ -8,6 +8,7 @@ from exceptions.bad_request import BadRequestException, bad_request_exception_ha
 from exceptions.not_found import NotFoundException, not_found_exception_handler
 from exceptions.unauthenticated import UnauthenticatedException, unauthenticated_exception_handler
 from exceptions.unauthorized import UnauthorizedException, unauthorized_exception_handler
+from exceptions.unprocessable_entity import UnprocessableEntityException, unprocessable_entity_exception_handler
 from seeder.seed import seed
 
 
@@ -56,3 +57,9 @@ def handle_unauthorized_exception(_, exc: UnauthorizedException):
 @app.exception_handler(NotFoundException)
 def handle_not_found_exception(_, exc: NotFoundException):
     return not_found_exception_handler(exc=exc)
+
+
+# handle exceptions
+@app.exception_handler(UnprocessableEntityException)
+def handle_unprocessable_entity_exception(_, exc: UnprocessableEntityException):
+    return unprocessable_entity_exception_handler(exc=exc)

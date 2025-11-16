@@ -1,4 +1,5 @@
 from typing import Optional
+from uuid import UUID
 
 from apps.account.models.account import AccountModel
 from apps.account.schemas.account import AccountsResponseSchema, AccountResponseSchema, CreateAccountSchema, \
@@ -29,8 +30,8 @@ class AccountController:
             page=page,
         )
 
-    async def by_id(self, account: AccountModel) -> AccountResponseSchema:
-        return await self._service.by_id(account)
+    async def by_id(self, account: AccountModel, account_id: UUID) -> AccountResponseSchema:
+        return await self._service.by_id(data=account, account_id=account_id)
 
     async def store(self, data: CreateAccountSchema) -> AccountResponseSchema:
 

@@ -1,9 +1,11 @@
 from typing import Optional
+from uuid import UUID
 
 from apps.account.models.account import AccountModel
 from apps.account.repositories.account import AccountRepository
 from apps.account.schemas.account import AccountsResponseSchema, AccountSchema, AccountResponseSchema, \
     CreateAccountSchema, CreateAccountModelSchema, UpdateAccountSchema, UpdateAccountModelSchema, ChangePasswordSchema
+from exceptions.unauthorized import UnauthorizedException
 from utils.enums.account_role import AccountRole
 from utils.password import PasswordHelper
 
@@ -33,12 +35,14 @@ class AccountService:
         return AccountsResponseSchema(data=data, total=total, page=page, per_page=per_page)
 
     @staticmethod
-    async def by_id(data: AccountModel) -> AccountResponseSchema:
+    async def by_id(data: AccountModel, account_id: UUID) -> AccountResponseSchema:
+        if data.id == account_id:
+            UnauthorizedException.throw("You are not authorized get your own information")
         return AccountResponseSchema(data=AccountSchema.model_validate(data))
 
     async def store(self, data: CreateAccountSchema) -> AccountResponseSchema:
         data.password = PasswordHelper.hash(data.password)
-        data = await self._repo.store(CreateAccountModelSchema(**data.model_dump()))
+        data = await self._repo.store(CreateAccountModelSchema(**data.model_dump(), password_change_required=False))
         return AccountResponseSchema(
             data=AccountSchema.model_validate(data),
             status=201,
@@ -49,9 +53,9 @@ class AccountService:
         data = UpdateAccountModelSchema(**data.model_dump())
         if data.password:
             data.password = PasswordHelper.hash(data.password)
-        data = await self._repo.update(data=data, _id=account.id)
+        result = await self._repo.update(data=data, _id=account.id)
         return AccountResponseSchema(
-            data=AccountSchema.model_validate(data),
+            data=AccountSchema.model_validate(result),
             message="Account updated successfully",
         )
 

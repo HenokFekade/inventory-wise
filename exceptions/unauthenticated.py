@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import HTTPException, status
 from starlette.responses import JSONResponse
 
@@ -10,8 +12,8 @@ class UnauthenticatedException(HTTPException):
         super().__init__(status_code=self._status_code, detail=message)
 
     @classmethod
-    def throw(cls):
-        raise cls(message="Your are not authenticated")
+    def throw(cls, message: Optional[str] = None):
+        raise cls(message=message or "Your are not authenticated")
 
 
 def unauthenticated_exception_handler(exc: UnauthenticatedException):

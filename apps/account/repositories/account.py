@@ -55,7 +55,8 @@ class AccountRepository:
         return results, total
 
     async def by_id(self, _id: UUID) -> Optional[AccountModel]:
-        return await self._session.get(AccountModel, _id)
+        query = self._base_query().where(AccountModel.id == _id)  # type: ignore
+        return await self._session.scalar(query)
 
     async def by_email(self, email: str) -> Optional[AccountModel]:
         query = self._base_query().where(AccountModel.email == email) # type: ignore

@@ -41,8 +41,6 @@ class TokenAuth:
             UnauthorizedException.throw()
         elif not account.is_active:
             UnauthorizedException.throw()
-        elif not account.is_verified:
-            UnauthorizedException.throw()
 
         return account
 

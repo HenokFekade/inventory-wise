@@ -1,3 +1,5 @@
 from .account.account_binding import account_model_binding
 from .account.account_controller import account_controller_dep
+from .account.create_account_validator import create_account_validator_dep
+from .account.update_account_validator import update_account_validator_dep
 from .auth.auth_controller import auth_controller_dep
