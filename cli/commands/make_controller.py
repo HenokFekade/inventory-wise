@@ -45,6 +45,35 @@ class {name.title().replace("_", "")}Controller:
 
 """
 
+    if resource:
+        controller_template = f"""from apps.{name.lower()}.models.{name.lower()} import {name.title().replace("_", "")}Model
+from apps.{name.lower()}.schemas.{name.lower()} import {name.title().replace("_", "")}sResponseSchema, {name.title().replace("_", "")}ResponseSchema, Create{name.title().replace("_", "")}Schema, \\
+    Update{name.title().replace("_", "")}Schema
+from apps.{name.lower()}.services.{name.lower()} import {name.title().replace("_", "")}Service
+
+
+class {name.title().replace("_", "")}Controller:
+    def __init__(self, service: {name.title().replace("_", "")}Service):
+        self._service = service
+
+    async def index(self, search: str, per_page: int, page: int) -> {name.title().replace("_", "")}sResponseSchema:
+        return await self._service.index(search=search, per_page=per_page, page=page)
+
+    async def by_id(self, {name.lower()}: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
+        return await self._service.by_id(data={name.lower()})
+
+    async def store(self, data: Create{name.title().replace("_", "")}Schema) -> {name.title().replace("_", "")}ResponseSchema:
+
+        return await self._service.store(data)
+
+    async def update(self, {name.lower()}: {name.title().replace("_", "")}Model, data: Update{name.title().replace("_", "")}Schema) -> {name.title().replace("_", "")}ResponseSchema:
+        return await self._service.update(data=data, {name.lower()}={name.lower()})
+
+    
+    async def delete(self, data: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
+        return await self._service.delete(data)
+        """
+
     file_path.write_text(controller_template)
     console.print(f"[green]✅ controller '{name}' created at {file_path}![/green]")
 

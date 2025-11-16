@@ -40,6 +40,41 @@ def make_schema(
 
 """
 
+    if resource:
+        schema_template = f"""
+from typing import Optional, List
+
+from pydantic import BaseModel
+
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+
+
+class Create{name.title().replace("_", "")}Schema(BaseModel):
+    pass
+
+class Create{name.title().replace("_", "")}ModelSchema(Create{name.title().replace("_", "")}Schema):
+    pass
+
+class Update{name.title().replace("_", "")}Schema(BaseModel):
+    pass
+class Update{name.title().replace("_", "")}ModelSchema(Update{name.title().replace("_", "")}Schema):
+    pass
+
+class {name.title().replace("_", "")}Schema(BaseSchema):
+    pass
+
+class {name.title().replace("_", "")}ResponseSchema(BaseResponseSchema):
+    data: {name.title().replace("_", "")}Schema
+    status: int = 200
+    message: str = "{name.title().replace("_", "")} fetched successfully"
+
+class {name.title().replace("_", "")}sResponseSchema(BasePaginationResponseSchema):
+    data: List[{name.title().replace("_", "")}Schema]
+    status: int = 200
+    message: str = "{name.title().replace("_", "")}s fetched successfully"
+
+    """
+
     file_path.write_text(schema_template)
     console.print(f"[green]✅ Model '{name}' created at {file_path}![/green]")
 

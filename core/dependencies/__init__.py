@@ -3,3 +3,7 @@ from .account.account_controller import account_controller_dep
 from .account.create_account_validator import create_account_validator_dep
 from .account.update_account_validator import update_account_validator_dep
 from .auth.auth_controller import auth_controller_dep
+from .category.category_binding import category_model_binding
+from .category.category_controller import category_controller_dep
+from .category.create_category_validator import create_category_validator_dep
+from .category.update_category_validator import update_category_validator_dep

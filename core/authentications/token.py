@@ -51,3 +51,11 @@ class TokenAuth:
         if _id is None or _type is None or _type != AccountRole.super_admin.value:
             UnauthorizedException.throw()
         return await self._check_account_is_active(_id)
+
+    async def admin(self, token: str) -> AccountModel:
+        payload = self.decode(token)
+        _id = payload.get("id")
+        _type = payload.get("role")
+        if _id is None or _type is None or _type not in [AccountRole.super_admin.value, AccountRole.admin.value]:
+            UnauthorizedException.throw()
+        return await self._check_account_is_active(_id)

@@ -4,6 +4,7 @@ from fastapi import FastAPI, APIRouter
 
 from apps.account.routes.account import account_router
 from apps.auth.routes.auth import auth_router
+from apps.category.routes.category import category_router
 from exceptions.bad_request import BadRequestException, bad_request_exception_handler
 from exceptions.not_found import NotFoundException, not_found_exception_handler
 from exceptions.unauthenticated import UnauthenticatedException, unauthenticated_exception_handler
@@ -33,6 +34,7 @@ def health():
 v1_router = APIRouter(prefix="/api/v1")
 v1_router.include_router(account_router)
 v1_router.include_router(auth_router)
+v1_router.include_router(category_router)
 app.include_router(v1_router)
 
 

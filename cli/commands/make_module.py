@@ -7,6 +7,11 @@ from commands.make_repo import make_repository
 from commands.make_route import make_route
 from commands.make_schema import make_schema
 from commands.make_service import make_service
+from commands.dependency_controller import dependency_controller
+from commands.dependency_repo import dependency_repo
+from commands.dependency_service import dependency_service
+from commands.dependency_validator import dependency_validator
+from commands.model_binding import model_binding
 from rich.console import Console
 
 console = Console()
@@ -32,11 +37,19 @@ def make_module(
 
     # If -r flag passed, also create a controller
     if resource:
-        make_model(name)
-        make_controller(name)
-        make_repository(name)
-        make_service(name)
-        make_schema(name)
-        make_route(name)
+        make_model(name=name, resource=True)
+        make_controller(name=name, resource=True)
+        make_repository(name=name, resource=True)
+        make_service(name=name, resource=True)
+        make_schema(name=name, resource=True)
+        make_route(name=name, resource=True)
+        dependency_controller(name=name, folder=name)
+        dependency_repo(name=name, folder=name)
+        dependency_service(name=name, folder=name)
+        dependency_validator(name=f"create_{name.lower()}", folder=name,
+                             schema=f"Create{name.title().replace('_', '')}Schema")
+        dependency_validator(name=f"update_{name.lower()}", folder=name,
+                             schema=f"Update{name.title().replace('_', '')}Schema")
+        model_binding(name=name, folder=name)
 
     console.print(f"[green]✅ Module '{name}' created at {modules_path}![/green]")

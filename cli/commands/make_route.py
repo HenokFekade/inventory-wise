@@ -44,6 +44,71 @@ def make_route(
 
 """
 
+    if resource:
+        route_template = f"""from typing import Optional
+
+from fastapi import APIRouter, Depends, Query
+
+from apps.{name.lower()}.controllers.{name.lower()} import {name.title().replace("_", "")}Controller
+from apps.{name.lower()}.models.{name.lower()} import {name.title().replace("_", "")}Model
+from apps.{name.lower()}.schemas.{name.lower()} import {name.title().replace("_", "")}sResponseSchema, {name.title().replace("_", "")}ResponseSchema, Update{name.title().replace("_", "")}Schema, \\
+    Create{name.title().replace("_", "")}Schema
+from core.authentications.admin import admin_dep
+from core.dependencies import {name.lower()}_controller_dep, {name.lower()}_model_binding, create_{name.lower()}_validator_dep, \
+    update_{name.lower()}_validator_dep
+
+{name.lower()}_router = APIRouter(prefix="/{name.lower()}s", tags=["{name.title().replace("_", "")}"])
+
+
+@{name.lower()}_router.get("", response_model={name.title().replace("_", "")}sResponseSchema)
+async def index(
+        _=Depends(admin_dep),
+        page: int = Query(default=1, ge=1),
+        per_page: int = Query(default=10, ge=1, alias="per-page"),
+        search: Optional[str] = Query(default=""),
+        controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
+):
+    return await controller.index(search=search, per_page=per_page, page=page)
+
+
+@{name.lower()}_router.post("", response_model={name.title().replace("_", "")}ResponseSchema, status_code=201)
+async def create_{name.lower()}(
+        data: Create{name.title().replace("_", "")}Schema = Depends(create_{name.lower()}_validator_dep),
+        controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
+        _=Depends(admin_dep),
+):
+    return await controller.store(data=data)
+
+
+@{name.lower()}_router.get("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
+async def get_by_id(
+        {name.lower()}: {name.title().replace("_", "")}Model = Depends({name.lower()}_model_binding),
+        controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
+        _=Depends(admin_dep),
+):
+    return await controller.by_id({name.lower()}={name.lower()})
+
+
+@{name.lower()}_router.patch("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
+async def update(
+        {name.lower()}: {name.title().replace("_", "")}Model = Depends({name.lower()}_model_binding),
+        data: Update{name.title().replace("_", "")}Schema = Depends(update_{name.lower()}_validator_dep),
+        controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
+        _=Depends(admin_dep),
+):
+    return await controller.update({name.lower()}={name.lower()}, data=data)
+
+
+@{name.lower()}_router.delete("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
+async def update(
+        {name.lower()}: {name.title().replace("_", "")}Model = Depends({name.lower()}_model_binding),
+        controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
+        _=Depends(admin_dep),
+):
+    return await controller.delete(data={name.lower()})
+
+"""
+
     file_path.write_text(route_template)
     console.print(f"[green]✅ route '{name}' created at {file_path}![/green]")
 
