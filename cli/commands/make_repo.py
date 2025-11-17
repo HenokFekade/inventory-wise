@@ -111,7 +111,6 @@ class {name.title().replace("_", "")}Repository:
         query = delete({name.title().replace("_", "")}Model).where({name.title().replace("_", "")}Model.id == _id) # type: ignore
         await self._session.execute(query)
         await self._session.commit()
-
 """
 
     file_path.write_text(repository_template)

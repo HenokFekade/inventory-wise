@@ -49,7 +49,6 @@ class {name.title().replace("_", "").replace("Model", "")}Model(TimestampMixin, 
     __tablename__ = "{name.lower()}s"
     
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
-
 """
 
     file_path.write_text(model_template)

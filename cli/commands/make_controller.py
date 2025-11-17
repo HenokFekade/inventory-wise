@@ -68,11 +68,10 @@ class {name.title().replace("_", "")}Controller:
 
     async def update(self, {name.lower()}: {name.title().replace("_", "")}Model, data: Update{name.title().replace("_", "")}Schema) -> {name.title().replace("_", "")}ResponseSchema:
         return await self._service.update(data=data, {name.lower()}={name.lower()})
-
     
     async def delete(self, data: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
         return await self._service.delete(data)
-        """
+"""
 
     file_path.write_text(controller_template)
     console.print(f"[green]✅ controller '{name}' created at {file_path}![/green]")

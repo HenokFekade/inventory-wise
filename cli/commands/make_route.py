@@ -57,6 +57,7 @@ from core.authentications.admin import admin_dep
 from core.dependencies import {name.lower()}_controller_dep, {name.lower()}_model_binding, create_{name.lower()}_validator_dep, \
     update_{name.lower()}_validator_dep
 
+
 {name.lower()}_router = APIRouter(prefix="/{name.lower()}s", tags=["{name.title().replace("_", "")}"])
 
 
@@ -70,7 +71,6 @@ async def index(
 ):
     return await controller.index(search=search, per_page=per_page, page=page)
 
-
 @{name.lower()}_router.post("", response_model={name.title().replace("_", "")}ResponseSchema, status_code=201)
 async def create_{name.lower()}(
         data: Create{name.title().replace("_", "")}Schema = Depends(create_{name.lower()}_validator_dep),
@@ -78,7 +78,6 @@ async def create_{name.lower()}(
         _=Depends(admin_dep),
 ):
     return await controller.store(data=data)
-
 
 @{name.lower()}_router.get("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
 async def get_by_id(
@@ -88,7 +87,6 @@ async def get_by_id(
 ):
     return await controller.by_id({name.lower()}={name.lower()})
 
-
 @{name.lower()}_router.patch("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
 async def update(
         {name.lower()}: {name.title().replace("_", "")}Model = Depends({name.lower()}_model_binding),
@@ -97,7 +95,6 @@ async def update(
         _=Depends(admin_dep),
 ):
     return await controller.update({name.lower()}={name.lower()}, data=data)
-
 
 @{name.lower()}_router.delete("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
 async def update(

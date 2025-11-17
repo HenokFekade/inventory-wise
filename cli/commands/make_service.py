@@ -42,7 +42,6 @@ def make_service(
 class {name.title().replace("_", "")}Service:
     def __init__(self, repo: {name.title().replace("_", "")}Repository):
         self._repo = repo
-
 """
 
     if resource:
@@ -55,7 +54,6 @@ from apps.{name.lower()}.schemas.{name.lower()} import {name.title().replace("_"
 class {name.title().replace("_", "")}Service:
     def __init__(self, repo: {name.title().replace("_", "")}Repository):
         self._repo = repo
-
     
     async def index(self, search: str, per_page: int, page: int) -> {name.title().replace("_", "")}sResponseSchema:
         result, total = await self._repo.by_pagination(offset=page, search=search, limit=per_page)
@@ -88,7 +86,6 @@ class {name.title().replace("_", "")}Service:
             data={name.title().replace("_", "")}Schema.model_validate(data),
             message="{name.title().replace("_", "")} deleted successfully",
         )
-
 """
 
     file_path.write_text(service_template)

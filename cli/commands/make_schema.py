@@ -57,6 +57,7 @@ class Create{name.title().replace("_", "")}ModelSchema(Create{name.title().repla
 
 class Update{name.title().replace("_", "")}Schema(BaseModel):
     pass
+
 class Update{name.title().replace("_", "")}ModelSchema(Update{name.title().replace("_", "")}Schema):
     pass
 

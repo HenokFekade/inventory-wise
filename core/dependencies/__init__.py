@@ -7,3 +7,7 @@ from .category.category_binding import category_model_binding
 from .category.category_controller import category_controller_dep
 from .category.create_category_validator import create_category_validator_dep
 from .category.update_category_validator import update_category_validator_dep
+from .currency.create_currency_validator import create_currency_validator_dep
+from .currency.currency_binding import currency_model_binding
+from .currency.currency_controller import currency_controller_dep
+from .currency.update_currency_validator import update_currency_validator_dep
