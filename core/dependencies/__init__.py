@@ -11,6 +11,10 @@ from .currency.create_currency_validator import create_currency_validator_dep
 from .currency.currency_binding import currency_model_binding
 from .currency.currency_controller import currency_controller_dep
 from .currency.update_currency_validator import update_currency_validator_dep
+from .customer.create_customer_validator import create_customer_validator_dep
+from .customer.customer_binding import customer_model_binding
+from .customer.customer_controller import customer_controller_dep
+from .customer.update_customer_validator import update_customer_validator_dep
 from .size.create_size_validator import create_size_validator_dep
 from .size.size_binding import size_model_binding
 from .size.size_controller import size_controller_dep
