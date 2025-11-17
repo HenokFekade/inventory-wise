@@ -10,6 +10,9 @@ from connections.database import BaseDatabase
 from apps.account.models.account import AccountModel
 from apps.category.models.category import CategoryModel
 from apps.currency.models.currency import CurrencyModel
+from apps.size.models.size import SizeModel
+from apps.store.models.store import StoreModel
+from apps.unit.models.unit import UnitModel
 from core.config.config import config as setting
 
 # this is the Alembic Config object, which provides

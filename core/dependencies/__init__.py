@@ -11,3 +11,15 @@ from .currency.create_currency_validator import create_currency_validator_dep
 from .currency.currency_binding import currency_model_binding
 from .currency.currency_controller import currency_controller_dep
 from .currency.update_currency_validator import update_currency_validator_dep
+from .size.create_size_validator import create_size_validator_dep
+from .size.size_binding import size_model_binding
+from .size.size_controller import size_controller_dep
+from .size.update_size_validator import update_size_validator_dep
+from .store.create_store_validator import create_store_validator_dep
+from .store.store_binding import store_model_binding
+from .store.store_controller import store_controller_dep
+from .store.update_store_validator import update_store_validator_dep
+from .unit.create_unit_validator import create_unit_validator_dep
+from .unit.unit_binding import unit_model_binding
+from .unit.unit_controller import unit_controller_dep
+from .unit.update_unit_validator import update_unit_validator_dep
