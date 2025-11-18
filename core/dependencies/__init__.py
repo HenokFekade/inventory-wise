@@ -7,6 +7,10 @@ from .category.category_binding import category_model_binding
 from .category.category_controller import category_controller_dep
 from .category.create_category_validator import create_category_validator_dep
 from .category.update_category_validator import update_category_validator_dep
+from .color.color_binding import color_model_binding
+from .color.color_controller import color_controller_dep
+from .color.create_color_validator import create_color_validator_dep
+from .color.update_color_validator import update_color_validator_dep
 from .currency.create_currency_validator import create_currency_validator_dep
 from .currency.currency_binding import currency_model_binding
 from .currency.currency_controller import currency_controller_dep
@@ -23,6 +27,10 @@ from .store.create_store_validator import create_store_validator_dep
 from .store.store_binding import store_model_binding
 from .store.store_controller import store_controller_dep
 from .store.update_store_validator import update_store_validator_dep
+from .supplier.create_supplier_validator import create_supplier_validator_dep
+from .supplier.supplier_binding import supplier_model_binding
+from .supplier.supplier_controller import supplier_controller_dep
+from .supplier.update_supplier_validator import update_supplier_validator_dep
 from .unit.create_unit_validator import create_unit_validator_dep
 from .unit.unit_binding import unit_model_binding
 from .unit.unit_controller import unit_controller_dep
