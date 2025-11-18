@@ -13,7 +13,8 @@ async def update_color_validator_dep(
         _id: UUID = Path(alias="id"),
         repo: ColorRepository = Depends(color_repo_dep),
 ) -> UpdateColorSchema:
-    result = await repo.by_name(data.name)
-    if result and result.id == _id:
-        UnprocessableEntityException.throw("name", ["Name already taken."])
+    if data.name:
+        result = await repo.by_name(data.name)
+        if result and result.id == _id:
+            UnprocessableEntityException.throw("name", ["Name already taken."])
     return data

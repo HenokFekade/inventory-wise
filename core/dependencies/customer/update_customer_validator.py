@@ -13,7 +13,8 @@ async def update_customer_validator_dep(
         _id: UUID = Path(alias="id"),
         repo: CustomerRepository = Depends(customer_repo_dep),
 ) -> UpdateCustomerSchema:
-    result = await repo.by_phone(data.phone)
-    if result and result.id != _id:
-        UnprocessableEntityException.throw("phone", ["Phone already taken."])
+    if data.phone:
+        result = await repo.by_phone(data.phone)
+        if result and result.id != _id:
+            UnprocessableEntityException.throw("phone", ["Phone already taken."])
     return data

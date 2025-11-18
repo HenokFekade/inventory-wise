@@ -19,6 +19,10 @@ from .customer.create_customer_validator import create_customer_validator_dep
 from .customer.customer_binding import customer_model_binding
 from .customer.customer_controller import customer_controller_dep
 from .customer.update_customer_validator import update_customer_validator_dep
+from .item.create_item_validator import create_item_validator_dep
+from .item.item_binding import item_model_binding
+from .item.item_controller import item_controller_dep
+from .item.update_item_validator import update_item_validator_dep
 from .size.create_size_validator import create_size_validator_dep
 from .size.size_binding import size_model_binding
 from .size.size_controller import size_controller_dep
@@ -31,6 +35,10 @@ from .supplier.create_supplier_validator import create_supplier_validator_dep
 from .supplier.supplier_binding import supplier_model_binding
 from .supplier.supplier_controller import supplier_controller_dep
 from .supplier.update_supplier_validator import update_supplier_validator_dep
+from .tax.create_tax_validator import create_tax_validator_dep
+from .tax.tax_binding import tax_model_binding
+from .tax.tax_controller import tax_controller_dep
+from .tax.update_tax_validator import update_tax_validator_dep
 from .unit.create_unit_validator import create_unit_validator_dep
 from .unit.unit_binding import unit_model_binding
 from .unit.unit_controller import unit_controller_dep

@@ -13,11 +13,13 @@ async def update_currency_validator_dep(
         _id: UUID = Path(alias="id"),
         repo: CurrencyRepository = Depends(currency_repo_dep),
 ) -> UpdateCurrencySchema:
-    result = await repo.by_name(data.name)
-    if result and result.id == _id:
-        UnprocessableEntityException.throw("name", ["Name already taken."])
+    if data.name:
+        result = await repo.by_name(data.name)
+        if result and result.id == _id:
+            UnprocessableEntityException.throw("name", ["Name already taken."])
 
-    result = await repo.by_code(data.code)
-    if result and result.id == _id:
-        UnprocessableEntityException.throw("code", ["Code already taken."])
+    if data.code:
+        result = await repo.by_code(data.code)
+        if result and result.id == _id:
+            UnprocessableEntityException.throw("code", ["Code already taken."])
     return data

@@ -12,9 +12,11 @@ from apps.category.models.category import CategoryModel
 from apps.color.models.color import ColorModel
 from apps.currency.models.currency import CurrencyModel
 from apps.customer.models.customer import CustomerModel
+from apps.item.models.item import ItemModel
 from apps.size.models.size import SizeModel
 from apps.supplier.models.supplier import SupplierModel
 from apps.store.models.store import StoreModel
+from apps.tax.models.tax import TaxModel
 from apps.unit.models.unit import UnitModel
 from core.config.config import config as setting
 
