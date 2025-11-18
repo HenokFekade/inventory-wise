@@ -37,7 +37,7 @@ class AccountRepository:
                     ' ',
                     func.coalesce(AccountModel.last_name, '')
                 ).ilike(f"%{search}%"),
-                AccountModel.email.ilike(f"%{search}%"),
+                AccountModel.username.ilike(f"%{search}%"),
                 AccountModel.phone.ilike(f"%{search}%"),
             )
         )
@@ -58,8 +58,8 @@ class AccountRepository:
         query = self._base_query().where(AccountModel.id == _id)  # type: ignore
         return await self._session.scalar(query)
 
-    async def by_email(self, email: str) -> Optional[AccountModel]:
-        query = self._base_query().where(AccountModel.email == email) # type: ignore
+    async def by_username(self, username: str) -> Optional[AccountModel]:
+        query = self._base_query().where(AccountModel.username == username)  # type: ignore
         return await self._session.scalar(query)
 
     async def by_phone(self, phone: str) -> Optional[AccountModel]:

@@ -10,9 +10,9 @@ async def create_account_validator_dep(
         data: CreateAccountSchema,
         repo: AccountRepository = Depends(account_repo_dep),
 ) -> CreateAccountSchema:
-    resp = await repo.by_email(data.email)
+    resp = await repo.by_username(data.username)
     if resp is not None:
-        UnprocessableEntityException.throw("email", ["Email already token."])
+        UnprocessableEntityException.throw("username", ["Username already token."])
 
     resp = await repo.by_phone(data.phone)
     if resp is not None:

@@ -1,7 +1,7 @@
 import re
 from typing import Optional, List
 
-from pydantic import BaseModel, EmailStr, field_validator, ValidationInfo
+from pydantic import BaseModel, field_validator, ValidationInfo
 
 from utils.enums.account_role import AccountRole
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
@@ -12,7 +12,7 @@ class CreateAccountSchema(BaseModel):
     last_name: str
     role: AccountRole
     phone: str
-    email: EmailStr
+    username: str
     image: Optional[str] = None
     password: str
 
@@ -33,7 +33,7 @@ class UpdateAccountSchema(BaseModel):
     last_name: Optional[str] = None
     role: AccountRole
     phone: Optional[str] = None
-    email: EmailStr
+    username: str
     image: Optional[str] = None
     password: Optional[str] = None
     is_active: Optional[bool] = None
@@ -70,7 +70,7 @@ class AccountSchema(BaseSchema):
     last_name: str
     role: AccountRole
     phone: str
-    email: EmailStr
+    username: str
     image: Optional[str] = None
     password_change_required: bool
 

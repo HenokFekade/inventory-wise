@@ -16,7 +16,7 @@ class AccountModel(TimestampMixin, BaseDatabase):
     last_name = Column(String(), nullable=False)
     role = Column(Enum(AccountRole), nullable=False)
     phone = Column(String(), nullable=False, unique=True)
-    email = Column(String(), nullable=False, unique=True)
+    username = Column(String(), nullable=False, unique=True)
     password = Column(String(), nullable=False)
     password_change_required = Column(Boolean(), nullable=False)
     is_active = Column(Boolean(), nullable=False, default=True)

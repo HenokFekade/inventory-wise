@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 from apps.account.schemas.account import AccountSchema
 from utils.schemas.base_schema import BaseResponseSchema
@@ -8,7 +8,7 @@ class TokenSchema(BaseModel):
     access_token: str
 
 class AccountLoginSchema(BaseModel):
-    email: EmailStr
+    username: str
     password: str
 
 class AdminAuthResponseSchema(BaseResponseSchema):
