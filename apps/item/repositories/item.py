@@ -31,15 +31,24 @@ class ItemRepository:
         query = self._base_query().where(ItemModel.id == _id)  # type: ignore
         return await self._session.scalar(query)
 
-    async def store(self, data: CreateItemModelSchema) -> ItemModel:
-        model = ItemModel(**data.model_dump())  # type: ignore
-        self._session.add(model)
+    async def commit(self):
         await self._session.commit()
+
+    async def rollback(self):
+        await self._session.rollback()
+
+    async def store(self, data: CreateItemModelSchema, commit: bool) -> ItemModel:
+        model = ItemModel(**data.model_dump(mode="json"))  # type: ignore
+        self._session.add(model)
+        if commit:
+            await self._session.commit()
+        else:
+            await self._session.flush()
         await self._session.refresh(model)
         return model
 
     async def update(self, _id: UUID, data: UpdateItemModelSchema) -> Optional[ItemModel]:
-        values = data.model_dump(exclude_none=True)
+        values = data.model_dump(exclude_none=True, mode="json")
         if not values:
             return None
 

@@ -32,3 +32,4 @@ class ItemModel(TimestampMixin, BaseDatabase):
     currency = relationship("CurrencyModel", uselist=False)
     unit = relationship("UnitModel", uselist=False)
     tax = relationship("TaxModel", uselist=False)
+    stores = relationship("StoreItemModel", uselist=True)

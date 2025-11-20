@@ -15,6 +15,7 @@ from apps.customer.models.customer import CustomerModel
 from apps.item.models.item import ItemModel
 from apps.size.models.size import SizeModel
 from apps.supplier.models.supplier import SupplierModel
+from apps.store_item.models.store_item import StoreItemModel
 from apps.store.models.store import StoreModel
 from apps.tax.models.tax import TaxModel
 from apps.unit.models.unit import UnitModel

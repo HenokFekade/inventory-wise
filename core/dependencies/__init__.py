@@ -31,6 +31,8 @@ from .store.create_store_validator import create_store_validator_dep
 from .store.store_binding import store_model_binding
 from .store.store_controller import store_controller_dep
 from .store.update_store_validator import update_store_validator_dep
+from .store_item.store_item_binding import store_item_model_binding
+from .store_item.store_item_controller import store_item_controller_dep
 from .supplier.create_supplier_validator import create_supplier_validator_dep
 from .supplier.supplier_binding import supplier_model_binding
 from .supplier.supplier_controller import supplier_controller_dep

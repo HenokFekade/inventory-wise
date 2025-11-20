@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, APIRouter
 
 from apps.account.routes.account import account_router
+from exceptions.unprocessable_entities import UnprocessableEntitiesException, unprocessable_entities_exception_handler
 from apps.auth.routes.auth import auth_router
 from apps.category.routes.category import category_router
 from apps.color.routes.color import color_router
@@ -11,6 +12,7 @@ from apps.customer.routes.customer import customer_router
 from apps.item.routes.item import item_router
 from apps.size.routes.size import size_router
 from apps.store.routes.store import store_router
+from apps.store_item.routes.store_item import store_item_router
 from apps.supplier.routes.supplier import supplier_router
 from apps.tax.routes.tax import tax_router
 from apps.unit.routes.unit import unit_router
@@ -51,6 +53,7 @@ v1_router.include_router(item_router)
 v1_router.include_router(size_router)
 v1_router.include_router(supplier_router)
 v1_router.include_router(store_router)
+v1_router.include_router(store_item_router)
 v1_router.include_router(tax_router)
 v1_router.include_router(unit_router)
 app.include_router(v1_router)
@@ -83,3 +86,9 @@ def handle_not_found_exception(_, exc: NotFoundException):
 @app.exception_handler(UnprocessableEntityException)
 def handle_unprocessable_entity_exception(_, exc: UnprocessableEntityException):
     return unprocessable_entity_exception_handler(exc=exc)
+
+
+# handle exceptions
+@app.exception_handler(UnprocessableEntitiesException)
+def handle_unprocessable_entities_exception(_, exc: UnprocessableEntitiesException):
+    return unprocessable_entities_exception_handler(exc=exc)
