@@ -19,6 +19,7 @@ from .customer.create_customer_validator import create_customer_validator_dep
 from .customer.customer_binding import customer_model_binding
 from .customer.customer_controller import customer_controller_dep
 from .customer.update_customer_validator import update_customer_validator_dep
+from .file_upload.file_upload_controller import file_upload_controller_dep
 from .item.create_item_validator import create_item_validator_dep
 from .item.item_binding import item_model_binding
 from .item.item_controller import item_controller_dep

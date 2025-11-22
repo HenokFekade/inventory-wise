@@ -1,7 +1,7 @@
 import re
 from typing import Optional, List
 
-from pydantic import BaseModel, field_validator, ValidationInfo
+from pydantic import BaseModel, field_validator, ValidationInfo, AnyHttpUrl
 
 from utils.enums.account_role import AccountRole
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
@@ -13,7 +13,7 @@ class CreateAccountSchema(BaseModel):
     role: AccountRole
     phone: str
     username: str
-    image: Optional[str] = None
+    image: Optional[AnyHttpUrl] = None
     password: str
 
     @field_validator('phone')
@@ -34,7 +34,7 @@ class UpdateAccountSchema(BaseModel):
     role: AccountRole
     phone: Optional[str] = None
     username: str
-    image: Optional[str] = None
+    image: Optional[AnyHttpUrl] = None
     password: Optional[str] = None
     is_active: Optional[bool] = None
 
@@ -71,7 +71,7 @@ class AccountSchema(BaseSchema):
     role: AccountRole
     phone: str
     username: str
-    image: Optional[str] = None
+    image: Optional[AnyHttpUrl] = None
     password_change_required: bool
 
 class AccountResponseSchema(BaseResponseSchema):

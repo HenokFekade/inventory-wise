@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, APIRouter
 
 from apps.account.routes.account import account_router
+from apps.file_upload.routes.file_upload import file_upload_router
+from apps.file_upload.services.cloudinary_file_upload import CloudinaryFileUploadService
 from exceptions.unprocessable_entities import UnprocessableEntitiesException, unprocessable_entities_exception_handler
 from apps.auth.routes.auth import auth_router
 from apps.category.routes.category import category_router
@@ -29,6 +31,7 @@ from seeder.seed import seed
 async def lifespan(_: FastAPI):
     # seed data
     await seed()
+    CloudinaryFileUploadService.initialize()
     yield
 
 # initialize server
@@ -49,6 +52,7 @@ v1_router.include_router(category_router)
 v1_router.include_router(color_router)
 v1_router.include_router(currency_router)
 v1_router.include_router(customer_router)
+v1_router.include_router(file_upload_router)
 v1_router.include_router(item_router)
 v1_router.include_router(size_router)
 v1_router.include_router(supplier_router)
