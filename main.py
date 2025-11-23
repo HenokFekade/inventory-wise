@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 
 from apps.account.routes.account import account_router
 from apps.file_upload.routes.file_upload import file_upload_router
@@ -36,6 +37,15 @@ async def lifespan(_: FastAPI):
 
 # initialize server
 app = FastAPI(lifespan=lifespan, title="Inventory Wise API")
+
+# add cors middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():
