@@ -30,8 +30,8 @@ class AccountController:
             page=page,
         )
 
-    async def by_id(self, account: AccountModel, account_id: UUID) -> AccountResponseSchema:
-        return await self._service.by_id(data=account, account_id=account_id)
+    def by_id(self, account: AccountModel, account_id: UUID) -> AccountResponseSchema:
+        return self._service.by_id(data=account, account_id=account_id)
 
     async def store(self, data: CreateAccountSchema) -> AccountResponseSchema:
 
@@ -42,6 +42,9 @@ class AccountController:
 
     async def change_password(self, account: AccountModel, data: ChangePasswordSchema) -> AccountResponseSchema:
         return await self._service.change_password(data=data, account=account)
+
+    def profile(self, account: AccountModel) -> AccountResponseSchema:
+        return self._service.profile(account=account)
 
     async def delete(self, data: AccountModel) -> AccountResponseSchema:
         return await self._service.delete(data)

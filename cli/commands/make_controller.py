@@ -59,8 +59,8 @@ class {name.title().replace("_", "")}Controller:
     async def index(self, search: str, per_page: int, page: int) -> {name.title().replace("_", "")}sResponseSchema:
         return await self._service.index(search=search, per_page=per_page, page=page)
 
-    async def by_id(self, {name.lower()}: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
-        return await self._service.by_id(data={name.lower()})
+    def by_id(self, {name.lower()}: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
+        return self._service.by_id(data={name.lower()})
 
     async def store(self, data: Create{name.title().replace("_", "")}Schema) -> {name.title().replace("_", "")}ResponseSchema:
 

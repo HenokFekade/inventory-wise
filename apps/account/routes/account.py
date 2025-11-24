@@ -52,13 +52,21 @@ async def change_password(
     return await controller.change_password(account=account.id, data=data)
 
 
+@account_router.get("/profile", response_model=AccountResponseSchema)
+def profile(
+        controller: AccountController = Depends(account_controller_dep),
+        account: AccountModel = Depends(super_admin_dep),
+):
+    return controller.profile(account=account)
+
+
 @account_router.get("/{id}", response_model=AccountResponseSchema)
-async def get_by_id(
+def get_by_id(
         account: AccountModel = Depends(account_model_binding),
         controller: AccountController = Depends(account_controller_dep),
         current_account: AccountModel = Depends(super_admin_dep),
 ):
-    return await controller.by_id(account=account, account_id=current_account.id)
+    return controller.by_id(account=account, account_id=current_account.id)
 
 
 @account_router.patch("/{id}", response_model=AccountResponseSchema)

@@ -35,7 +35,7 @@ class AccountService:
         return AccountsResponseSchema(data=data, total=total, page=page, per_page=per_page)
 
     @staticmethod
-    async def by_id(data: AccountModel, account_id: UUID) -> AccountResponseSchema:
+    def by_id(data: AccountModel, account_id: UUID) -> AccountResponseSchema:
         if data.id == account_id:
             UnauthorizedException.throw("You are not authorized get your own information")
         return AccountResponseSchema(data=AccountSchema.model_validate(data))
@@ -70,6 +70,13 @@ class AccountService:
         return AccountResponseSchema(
             data=AccountSchema.model_validate(data),
             message="Password changed successfully",
+        )
+
+    @staticmethod
+    def profile(account: AccountModel) -> AccountResponseSchema:
+        return AccountResponseSchema(
+            data=AccountSchema.model_validate(account),
+            message="Profile fetched successfully",
         )
 
     async def delete(self, data: AccountModel) -> AccountResponseSchema:

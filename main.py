@@ -40,7 +40,7 @@ app = FastAPI(lifespan=lifespan, title="Inventory Wise API")
 
 # add cors middleware
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware, # type: ignore
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],

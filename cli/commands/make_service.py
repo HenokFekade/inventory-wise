@@ -61,7 +61,7 @@ class {name.title().replace("_", "")}Service:
         return {name.title().replace("_", "")}sResponseSchema(data=data, total=total, page=page, per_page=per_page)
 
     @staticmethod
-    async def by_id(data: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
+    def by_id(data: {name.title().replace("_", "")}Model) -> {name.title().replace("_", "")}ResponseSchema:
         return {name.title().replace("_", "")}ResponseSchema(data={name.title().replace("_", "")}Schema.model_validate(data))
 
     async def store(self, data: Create{name.title().replace("_", "")}Schema) -> {name.title().replace("_", "")}ResponseSchema:

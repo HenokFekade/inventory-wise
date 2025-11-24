@@ -80,12 +80,12 @@ async def create_{name.lower()}(
     return await controller.store(data=data)
 
 @{name.lower()}_router.get("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
-async def get_by_id(
+def get_by_id(
         {name.lower()}: {name.title().replace("_", "")}Model = Depends({name.lower()}_model_binding),
         controller: {name.title().replace("_", "")}Controller = Depends({name.lower()}_controller_dep),
         _=Depends(admin_dep),
 ):
-    return await controller.by_id({name.lower()}={name.lower()})
+    return controller.by_id({name.lower()}={name.lower()})
 
 @{name.lower()}_router.patch("/{{id}}", response_model={name.title().replace("_", "")}ResponseSchema)
 async def update(
