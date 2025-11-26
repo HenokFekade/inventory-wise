@@ -67,14 +67,14 @@ class AccountRepository:
         return await self._session.scalar(query)
 
     async def store(self, data: CreateAccountModelSchema) -> AccountModel:
-        model = AccountModel(**data.model_dump()) # type: ignore
+        model = AccountModel(**data.model_dump(mode="json")) # type: ignore
         self._session.add(model)
         await self._session.commit()
         await self._session.refresh(model)
         return model
 
     async def update(self, _id: UUID, data: UpdateAccountModelSchema) -> Optional[AccountModel]:
-        values = data.model_dump(exclude_none=True)
+        values = data.model_dump(exclude_none=True, mode="json")
         if not values:
             return None
 
