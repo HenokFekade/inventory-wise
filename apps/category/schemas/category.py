@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, AnyHttpUrl
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateCategorySchema(BaseModel):
@@ -36,6 +36,12 @@ class CategorySchema(BaseSchema):
     images: Optional[List[AnyHttpUrl]] = None
     is_active: bool
     is_publicly_visible: bool
+
+
+class ItemCategorySchema(DatabaseSchema):
+    id: UUID
+    name: str
+    images: Optional[List[AnyHttpUrl]] = None
 
 
 class CategoryResponseSchema(BaseResponseSchema):

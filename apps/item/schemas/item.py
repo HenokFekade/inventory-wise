@@ -3,6 +3,12 @@ from uuid import UUID
 
 from pydantic import BaseModel, AnyHttpUrl, Field
 
+from apps.category.schemas.category import ItemCategorySchema
+from apps.color.schemas.color import ItemColorSchema
+from apps.currency.schemas.currency import ItemCurrencySchema
+from apps.size.schemas.size import ItemSizeSchema
+from apps.tax.schemas.tax import ItemTaxSchema
+from apps.unit.schemas.unit import ItemUnitSchema
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
 
 
@@ -72,12 +78,12 @@ class UpdateItemModelSchema(UpdateItemSchema):
 class ItemSchema(BaseSchema):
     name: str
     code: Optional[str] = None
-    category_id: UUID
-    color_id: Optional[UUID] = None
-    size_id: Optional[UUID] = None
-    currency_id: UUID
-    unit_id: UUID
-    tax_id: UUID
+    category: ItemCategorySchema
+    color: Optional[ItemColorSchema] = None
+    size: Optional[ItemSizeSchema] = None
+    currency: ItemCurrencySchema
+    unit: ItemUnitSchema
+    tax: ItemTaxSchema
     unit_cost: float = Field(gt=0)
     selling_price: float = Field(gt=0)
     min_selling_price: float = Field(gt=0)

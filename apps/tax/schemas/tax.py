@@ -1,8 +1,9 @@
 from typing import Optional, List
+from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateTaxSchema(BaseModel):
@@ -24,6 +25,12 @@ class UpdateTaxModelSchema(UpdateTaxSchema):
 
 
 class TaxSchema(BaseSchema):
+    percent: int
+    description: Optional[str] = None
+
+
+class ItemTaxSchema(DatabaseSchema):
+    id: UUID
     percent: int
     description: Optional[str] = None
 

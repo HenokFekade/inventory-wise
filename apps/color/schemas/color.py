@@ -1,8 +1,9 @@
 from typing import Optional, List
+from uuid import UUID
 
 from pydantic import BaseModel
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateColorSchema(BaseModel):
@@ -22,6 +23,11 @@ class UpdateColorModelSchema(UpdateColorSchema):
 
 
 class ColorSchema(BaseSchema):
+    name: str
+
+
+class ItemColorSchema(DatabaseSchema):
+    id: UUID
     name: str
 
 

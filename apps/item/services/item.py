@@ -23,8 +23,8 @@ class ItemService:
         data = [ItemSchema.model_validate(value) for value in result]
         return ItemsResponseSchema(data=data, total=total, page=page, per_page=per_page)
 
-    @staticmethod
-    async def by_id(data: ItemModel) -> ItemResponseSchema:
+    async def by_id(self, data: ItemModel) -> ItemResponseSchema:
+        data = await self._repo.by_id_with_all_relation_except_store(data.id)
         return ItemResponseSchema(data=ItemSchema.model_validate(data))
 
     async def store(self, data: CreateItemSchema) -> ItemResponseSchema:

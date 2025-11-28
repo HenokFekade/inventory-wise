@@ -1,8 +1,9 @@
 from typing import Optional, List
+from uuid import UUID
 
 from pydantic import BaseModel
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateUnitSchema(BaseModel):
@@ -24,6 +25,12 @@ class UpdateUnitModelSchema(UpdateUnitSchema):
 
 
 class UnitSchema(BaseSchema):
+    name: str
+    description: Optional[str] = None
+
+
+class ItemUnitSchema(DatabaseSchema):
+    id: UUID
     name: str
     description: Optional[str] = None
 

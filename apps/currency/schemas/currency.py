@@ -1,8 +1,9 @@
 from typing import Optional, List
+from uuid import UUID
 
 from pydantic import BaseModel
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateCurrencySchema(BaseModel):
@@ -24,6 +25,12 @@ class UpdateCurrencyModelSchema(UpdateCurrencySchema):
 
 
 class CurrencySchema(BaseSchema):
+    name: str
+    code: str
+
+
+class ItemCurrencySchema(DatabaseSchema):
+    id: UUID
     name: str
     code: str
 
