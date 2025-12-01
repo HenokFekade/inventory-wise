@@ -86,7 +86,7 @@ class ItemService:
                     store_ids.append(store.store_id)
             await self._store_item_repo.bulk_store(data=store_items, commit=False)
             await self._repo.commit()
-            item = await self._repo.by_id(item.id)
+            item = await self._repo.by_id_with_all_relation_except_store(item.id)
             return ItemResponseSchema(
                 data=ItemSchema.model_validate(item),
                 status=201,
