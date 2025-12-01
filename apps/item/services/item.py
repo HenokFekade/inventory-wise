@@ -107,6 +107,7 @@ class ItemService:
         )
 
     async def delete(self, data: ItemModel) -> ItemResponseSchema:
+        data = await self._repo.by_id_with_all_relation_except_store(data.id)
         await self._repo.delete(_id=data.id)
         return ItemResponseSchema(
             data=ItemSchema.model_validate(data),
