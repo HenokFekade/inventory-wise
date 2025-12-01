@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy import select, func, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload
 
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import CreateItemModelSchema, UpdateItemModelSchema
@@ -24,16 +24,16 @@ class ItemRepository:
 
         count_query = select(func.count()).select_from(query.subquery())
         total = await self._session.scalar(count_query)
-        query = query.options(selectinload(ItemModel.category), selectinload(ItemModel.color), selectinload(ItemModel.size))
-        query = query.options( selectinload(ItemModel.currency), selectinload(ItemModel.unit), selectinload(ItemModel.tax))
+        query = query.options(joinedload(ItemModel.category), joinedload(ItemModel.color), joinedload(ItemModel.size))
+        query = query.options( joinedload(ItemModel.currency), joinedload(ItemModel.unit), joinedload(ItemModel.tax))
         result = await self._session.execute(query.limit(limit).offset((offset - 1) * limit))
         results: List[ItemModel] = list(result.scalars().all())
         return results, total
 
     async def by_id_with_all_relation_except_store(self, _id: UUID) -> Optional[ItemModel]:
         query = self._base_query().where(ItemModel.id == _id)  # type: ignore
-        query = query.options(selectinload(ItemModel.category), selectinload(ItemModel.color), selectinload(ItemModel.size))
-        query = query.options(selectinload(ItemModel.currency), selectinload(ItemModel.unit), selectinload(ItemModel.tax))
+        query = query.options(joinedload(ItemModel.category), joinedload(ItemModel.color), joinedload(ItemModel.size))
+        query = query.options(joinedload(ItemModel.currency), joinedload(ItemModel.unit), joinedload(ItemModel.tax))
         return await self._session.scalar(query)
 
     async def by_id(self, _id: UUID) -> Optional[ItemModel]:
