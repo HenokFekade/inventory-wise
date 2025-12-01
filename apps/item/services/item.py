@@ -99,7 +99,8 @@ class ItemService:
 
     async def update(self, item: ItemModel, data: UpdateItemSchema) -> ItemResponseSchema:
         data = UpdateItemModelSchema(**data.model_dump())
-        result = await self._repo.update(data=data, _id=item.id)
+        await self._repo.update(data=data, _id=item.id)
+        result = await self._repo.by_id_with_all_relation_except_store(item.id)
         return ItemResponseSchema(
             data=ItemSchema.model_validate(result),
             message="Item updated successfully",
