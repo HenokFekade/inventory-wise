@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Query
 from apps.item.controllers.item import ItemController
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import ItemsResponseSchema, ItemResponseSchema, UpdateItemSchema, \
-    CreateItemSchema
+    CreateItemSchema, ItemFormResponseSchema
 from core.authentications.admin import admin_dep
 from core.dependencies import item_controller_dep, item_model_binding, create_item_validator_dep, \
     update_item_validator_dep
@@ -22,6 +22,14 @@ async def index(
         controller: ItemController = Depends(item_controller_dep),
 ):
     return await controller.index(search=search, per_page=per_page, page=page)
+
+
+@item_router.get("/form", response_model=ItemFormResponseSchema)
+async def form(
+        _=Depends(admin_dep),
+        controller: ItemController = Depends(item_controller_dep),
+):
+    return await controller.form()
 
 
 @item_router.post("", response_model=ItemResponseSchema, status_code=201)

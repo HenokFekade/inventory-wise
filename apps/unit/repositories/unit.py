@@ -31,6 +31,12 @@ class UnitRepository:
         total = await self._session.scalar(count_query)
         return results, total
 
+    async def all(self) -> List[UnitModel]:
+        query = self._base_query()
+        query = query.order_by(UnitModel.created_at.desc())  # type: ignore
+        result = await self._session.execute(query)
+        return list(result.scalars().all())
+
     async def by_id(self, _id: UUID) -> Optional[UnitModel]:
         query = self._base_query().where(UnitModel.id == _id)  # type: ignore
         return await self._session.scalar(query)

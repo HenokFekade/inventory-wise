@@ -1,22 +1,64 @@
+import asyncio
 from typing import List
 
+from apps.category.repositories.category import CategoryRepository
+from apps.color.repositories.color import ColorRepository
+from apps.currency.repositories.currency import CurrencyRepository
 from apps.item.models.item import ItemModel
 from apps.item.repositories.item import ItemRepository
 from apps.item.schemas.item import ItemsResponseSchema, ItemSchema, ItemResponseSchema, \
-    CreateItemSchema, CreateItemModelSchema, UpdateItemSchema, UpdateItemModelSchema
+    CreateItemSchema, CreateItemModelSchema, UpdateItemSchema, UpdateItemModelSchema, ItemFormResponseSchema, \
+    ItemFormSchema
+from apps.size.repositories.size import SizeRepository
 from apps.store_item.repositories.store_item import StoreItemRepository
 from apps.store_item.schemas.store_item import CreateStoreItemModelSchema
+from apps.tax.repositories.tax import TaxRepository
+from apps.unit.repositories.unit import UnitRepository
 from exceptions.bad_request import BadRequestException
 
 
 class ItemService:
     def __init__(
             self,
+            category_repo: CategoryRepository,
+            color_repo: ColorRepository,
+            size_repo: SizeRepository,
+            currency_repo: CurrencyRepository,
+            unit_repo: UnitRepository,
+            tax_repo: TaxRepository,
             repo: ItemRepository,
             store_item_repo: StoreItemRepository,
     ):
+        self._category_repo = category_repo
+        self._color_repo = color_repo
+        self._size_repo = size_repo
+        self._currency_repo = currency_repo
+        self._unit_repo = unit_repo
+        self._tax_repo = tax_repo
         self._repo = repo
         self._store_item_repo = store_item_repo
+
+    async def form(self) -> ItemFormResponseSchema:
+        categories, colors, sizes, currencies, units, taxes = await asyncio.gather(
+            self._category_repo.all(),
+            self._color_repo.all(),
+            self._size_repo.all(),
+            self._currency_repo.all(),
+            self._unit_repo.all(),
+            self._tax_repo.all(),
+        )
+        if None in [categories, colors, sizes, currencies, units, taxes]:
+            BadRequestException.throw("Something went wrong please try again.")
+
+        data = ItemFormSchema(
+            categories=categories,
+            colors=colors,
+            sizes=sizes,
+            currencies=currencies,
+            units=units,
+            taxes=taxes,
+        )
+        return ItemFormResponseSchema(data=data)
 
     async def index(self, search: str, per_page: int, page: int) -> ItemsResponseSchema:
         result, total = await self._repo.by_pagination(offset=page, search=search, limit=per_page)
@@ -39,6 +81,7 @@ class ItemService:
                     store_ids.append(store.store_id)
             await self._store_item_repo.bulk_store(data=store_items, commit=False)
             await self._repo.commit()
+            item = await self._repo.by_id(item.id)
             return ItemResponseSchema(
                 data=ItemSchema.model_validate(item),
                 status=201,

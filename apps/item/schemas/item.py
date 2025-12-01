@@ -92,10 +92,23 @@ class ItemSchema(BaseSchema):
     description: Optional[str] = None
     images: List[AnyHttpUrl]
 
+class ItemFormSchema(BaseModel):
+    categories: List[ItemCategorySchema]
+    colors: List[ItemColorSchema]
+    sizes: List[ItemSizeSchema]
+    currencies: List[ItemCurrencySchema]
+    units: List[ItemUnitSchema]
+    taxes: List[ItemTaxSchema]
+
 class ItemResponseSchema(BaseResponseSchema):
     data: ItemSchema
     status: int = 200
     message: str = "Item fetched successfully"
+
+class ItemFormResponseSchema(BaseResponseSchema):
+    data: ItemFormSchema
+    status: int = 200
+    message: str = "Item form fetched successfully"
 
 
 class ItemsResponseSchema(BasePaginationResponseSchema):

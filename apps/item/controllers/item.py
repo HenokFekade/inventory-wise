@@ -1,6 +1,6 @@
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import ItemsResponseSchema, ItemResponseSchema, CreateItemSchema, \
-    UpdateItemSchema
+    UpdateItemSchema, ItemFormResponseSchema
 from apps.item.services.item import ItemService
 
 
@@ -10,6 +10,9 @@ class ItemController:
 
     async def index(self, search: str, per_page: int, page: int) -> ItemsResponseSchema:
         return await self._service.index(search=search, per_page=per_page, page=page)
+
+    async def form(self) -> ItemFormResponseSchema:
+        return await self._service.form()
 
     async def by_id(self, item: ItemModel) -> ItemResponseSchema:
         return await self._service.by_id(data=item)

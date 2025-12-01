@@ -27,6 +27,12 @@ class CurrencyRepository:
         total = await self._session.scalar(count_query)
         return results, total
 
+    async def all(self) -> List[CurrencyModel]:
+        query = self._base_query()
+        query = query.order_by(CurrencyModel.created_at.desc())  # type: ignore
+        result = await self._session.execute(query)
+        return list(result.scalars().all())
+
     async def by_id(self, _id: UUID) -> Optional[CurrencyModel]:
         query = self._base_query().where(CurrencyModel.id == _id)  # type: ignore
         return await self._session.scalar(query)
