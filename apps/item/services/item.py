@@ -10,6 +10,7 @@ from apps.item.schemas.item import ItemsResponseSchema, ItemSchema, ItemResponse
     CreateItemSchema, CreateItemModelSchema, UpdateItemSchema, UpdateItemModelSchema, ItemFormResponseSchema, \
     ItemFormSchema
 from apps.size.repositories.size import SizeRepository
+from apps.store.repositories.store import StoreRepository
 from apps.store_item.repositories.store_item import StoreItemRepository
 from apps.store_item.schemas.store_item import CreateStoreItemModelSchema
 from apps.tax.repositories.tax import TaxRepository
@@ -23,6 +24,7 @@ class ItemService:
             category_repo: CategoryRepository,
             color_repo: ColorRepository,
             size_repo: SizeRepository,
+            store_repo: StoreRepository,
             currency_repo: CurrencyRepository,
             unit_repo: UnitRepository,
             tax_repo: TaxRepository,
@@ -32,6 +34,7 @@ class ItemService:
         self._category_repo = category_repo
         self._color_repo = color_repo
         self._size_repo = size_repo
+        self._store_repo = store_repo
         self._currency_repo = currency_repo
         self._unit_repo = unit_repo
         self._tax_repo = tax_repo
@@ -39,10 +42,11 @@ class ItemService:
         self._store_item_repo = store_item_repo
 
     async def form(self) -> ItemFormResponseSchema:
-        categories, colors, sizes, currencies, units, taxes = await asyncio.gather(
+        categories, colors, sizes, stores, currencies, units, taxes = await asyncio.gather(
             self._category_repo.all(),
             self._color_repo.all(),
             self._size_repo.all(),
+            self._store_repo.all(),
             self._currency_repo.all(),
             self._unit_repo.all(),
             self._tax_repo.all(),
@@ -54,6 +58,7 @@ class ItemService:
             categories=categories,
             colors=colors,
             sizes=sizes,
+            stores=stores,
             currencies=currencies,
             units=units,
             taxes=taxes,

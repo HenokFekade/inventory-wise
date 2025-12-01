@@ -7,6 +7,7 @@ from apps.category.schemas.category import ItemCategorySchema
 from apps.color.schemas.color import ItemColorSchema
 from apps.currency.schemas.currency import ItemCurrencySchema
 from apps.size.schemas.size import ItemSizeSchema
+from apps.store.schemas.store import ItemStoreSchema
 from apps.tax.schemas.tax import ItemTaxSchema
 from apps.unit.schemas.unit import ItemUnitSchema
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
@@ -96,6 +97,7 @@ class ItemFormSchema(BaseModel):
     categories: List[ItemCategorySchema]
     colors: List[ItemColorSchema]
     sizes: List[ItemSizeSchema]
+    stores: List[ItemStoreSchema]
     currencies: List[ItemCurrencySchema]
     units: List[ItemUnitSchema]
     taxes: List[ItemTaxSchema]
