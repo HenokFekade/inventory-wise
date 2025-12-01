@@ -43,8 +43,8 @@ class CreateItemModelSchema(BaseModel):
     color_id: Optional[UUID] = None
     size_id: Optional[UUID] = None
     currency_id: UUID
-    unit_id: UUID
-    tax_id: UUID
+    unit_id: Optional[UUID] = None
+    tax_id: Optional[UUID] = None
     unit_cost: float
     selling_price: float
     min_selling_price: float
@@ -83,8 +83,8 @@ class ItemSchema(BaseSchema):
     color: Optional[ItemColorSchema] = None
     size: Optional[ItemSizeSchema] = None
     currency: ItemCurrencySchema
-    unit: ItemUnitSchema
-    tax: ItemTaxSchema
+    unit: Optional[ItemUnitSchema] = None
+    tax: Optional[ItemTaxSchema] = None
     unit_cost: float = Field(gt=0)
     selling_price: float = Field(gt=0)
     min_selling_price: float = Field(gt=0)
