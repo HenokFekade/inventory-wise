@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from sqlalchemy import Column, UUID, ForeignKey, BigInteger, UniqueConstraint
+from sqlalchemy.orm import relationship
 
 from connections.database import BaseDatabase
 from utils.models.base_model import TimestampMixin
@@ -14,3 +15,4 @@ class StoreItemModel(TimestampMixin, BaseDatabase):
     item_id = Column(UUID(as_uuid=True), ForeignKey("items.id", ondelete="cascade"), nullable=False)
     store_id = Column(UUID(as_uuid=True), ForeignKey("stores.id", ondelete="cascade"), nullable=False)
     quantity = Column(BigInteger(), nullable=False)
+    store = relationship("StoreModel", uselist=False, back_populates="store_items")

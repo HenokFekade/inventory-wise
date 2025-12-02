@@ -3,7 +3,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
+from apps.store.schemas.store import ItemStoreSchema
+from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema, DatabaseSchema
 
 
 class CreateStoreItemSchema(BaseModel):
@@ -30,6 +31,12 @@ class StoreItemSchema(BaseSchema):
     store_id: UUID
     item_id: UUID
     quantity: int
+
+
+class ItemDetailStoreItemSchema(DatabaseSchema):
+    id: UUID
+    quantity: int
+    store: ItemStoreSchema
 
 
 class StoreItemResponseSchema(BaseResponseSchema):

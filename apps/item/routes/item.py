@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Query
 from apps.item.controllers.item import ItemController
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import ItemsResponseSchema, ItemResponseSchema, UpdateItemSchema, \
-    CreateItemSchema, ItemFormResponseSchema
+    CreateItemSchema, ItemFormResponseSchema, ItemDetailResponseSchema
 from core.authentications.admin import admin_dep
 from core.dependencies import item_controller_dep, item_model_binding, create_item_validator_dep, \
     update_item_validator_dep
@@ -48,6 +48,15 @@ async def get_by_id(
         _=Depends(admin_dep),
 ):
     return await controller.by_id(item=item)
+
+
+@item_router.get("/{id}/detail", response_model=ItemDetailResponseSchema)
+async def get_detail_by_id(
+        item: ItemModel = Depends(item_model_binding),
+        controller: ItemController = Depends(item_controller_dep),
+        _=Depends(admin_dep),
+):
+    return await controller.detail_by_id(item=item)
 
 
 @item_router.patch("/{id}", response_model=ItemResponseSchema)

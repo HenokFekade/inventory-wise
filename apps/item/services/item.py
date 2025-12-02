@@ -8,7 +8,7 @@ from apps.item.models.item import ItemModel
 from apps.item.repositories.item import ItemRepository
 from apps.item.schemas.item import ItemsResponseSchema, ItemSchema, ItemResponseSchema, \
     CreateItemSchema, CreateItemModelSchema, UpdateItemSchema, UpdateItemModelSchema, ItemFormResponseSchema, \
-    ItemFormSchema
+    ItemFormSchema, ItemDetailResponseSchema, ItemDetailSchema
 from apps.size.repositories.size import SizeRepository
 from apps.store.repositories.store import StoreRepository
 from apps.store_item.repositories.store_item import StoreItemRepository
@@ -73,6 +73,10 @@ class ItemService:
     async def by_id(self, data: ItemModel) -> ItemResponseSchema:
         data = await self._repo.by_id_with_all_relation_except_store(data.id)
         return ItemResponseSchema(data=ItemSchema.model_validate(data))
+
+    async def detail_by_id(self, data: ItemModel) -> ItemDetailResponseSchema:
+        data = await self._repo.by_id_with_all_relation(data.id)
+        return ItemDetailResponseSchema(data=ItemDetailSchema.model_validate(data))
 
     async def store(self, data: CreateItemSchema) -> ItemResponseSchema:
         try:

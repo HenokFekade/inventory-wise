@@ -1,6 +1,6 @@
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import ItemsResponseSchema, ItemResponseSchema, CreateItemSchema, \
-    UpdateItemSchema, ItemFormResponseSchema
+    UpdateItemSchema, ItemFormResponseSchema, ItemDetailResponseSchema
 from apps.item.services.item import ItemService
 
 
@@ -16,6 +16,9 @@ class ItemController:
 
     async def by_id(self, item: ItemModel) -> ItemResponseSchema:
         return await self._service.by_id(data=item)
+
+    async def detail_by_id(self, item: ItemModel) -> ItemDetailResponseSchema:
+        return await self._service.detail_by_id(data=item)
 
     async def store(self, data: CreateItemSchema) -> ItemResponseSchema:
         return await self._service.store(data)

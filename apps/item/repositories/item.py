@@ -7,6 +7,7 @@ from sqlalchemy.orm import joinedload
 
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import CreateItemModelSchema, UpdateItemModelSchema
+from apps.store_item.models.store_item import StoreItemModel
 
 
 class ItemRepository:
@@ -34,6 +35,13 @@ class ItemRepository:
         query = self._base_query().where(ItemModel.id == _id)  # type: ignore
         query = query.options(joinedload(ItemModel.category), joinedload(ItemModel.color), joinedload(ItemModel.size))
         query = query.options(joinedload(ItemModel.currency), joinedload(ItemModel.unit), joinedload(ItemModel.tax))
+        return await self._session.scalar(query)
+
+    async def by_id_with_all_relation(self, _id: UUID) -> Optional[ItemModel]:
+        query = self._base_query().where(ItemModel.id == _id)  # type: ignore
+        query = query.options(joinedload(ItemModel.category), joinedload(ItemModel.color), joinedload(ItemModel.size))
+        query = query.options(joinedload(ItemModel.currency), joinedload(ItemModel.unit), joinedload(ItemModel.tax))
+        query = query.options(joinedload(ItemModel.store_items).joinedload(StoreItemModel.store))
         return await self._session.scalar(query)
 
     async def by_id(self, _id: UUID) -> Optional[ItemModel]:

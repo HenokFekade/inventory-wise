@@ -8,6 +8,7 @@ from apps.color.schemas.color import ItemColorSchema
 from apps.currency.schemas.currency import ItemCurrencySchema
 from apps.size.schemas.size import ItemSizeSchema
 from apps.store.schemas.store import ItemStoreSchema
+from apps.store_item.schemas.store_item import ItemDetailStoreItemSchema
 from apps.tax.schemas.tax import ItemTaxSchema
 from apps.unit.schemas.unit import ItemUnitSchema
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
@@ -93,6 +94,11 @@ class ItemSchema(BaseSchema):
     description: Optional[str] = None
     images: List[AnyHttpUrl]
 
+
+class ItemDetailSchema(ItemSchema):
+    store_items: List[ItemDetailStoreItemSchema]
+
+
 class ItemFormSchema(BaseModel):
     categories: List[ItemCategorySchema]
     colors: List[ItemColorSchema]
@@ -106,6 +112,11 @@ class ItemResponseSchema(BaseResponseSchema):
     data: ItemSchema
     status: int = 200
     message: str = "Item fetched successfully"
+
+class ItemDetailResponseSchema(BaseResponseSchema):
+    data: ItemDetailSchema
+    status: int = 200
+    message: str = "Item detail fetched successfully"
 
 class ItemFormResponseSchema(BaseResponseSchema):
     data: ItemFormSchema

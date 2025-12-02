@@ -13,4 +13,4 @@ class StoreModel(TimestampMixin, BaseDatabase):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     name = Column(String(), unique=True, nullable=False)
     description = Column(Text(), nullable=True)
-    items = relationship("StoreItemModel", uselist=True)
+    store_items = relationship("StoreItemModel", uselist=True)
