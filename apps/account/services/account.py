@@ -53,7 +53,8 @@ class AccountService:
         data = UpdateAccountModelSchema(**data.model_dump())
         if data.password:
             data.password = PasswordHelper.hash(data.password)
-        result = await self._repo.update(data=data, _id=account.id)
+        await self._repo.update(data=data, _id=account.id)
+        result = await self._repo.by_id(account.id)
         return AccountResponseSchema(
             data=AccountSchema.model_validate(result),
             message="Account updated successfully",

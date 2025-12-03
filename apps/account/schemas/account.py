@@ -1,19 +1,19 @@
 from typing import Optional, List
 
-from pydantic import BaseModel, field_validator, ValidationInfo, AnyHttpUrl
+from pydantic import BaseModel, field_validator, ValidationInfo, AnyHttpUrl, Field
 
 from utils.enums.account_role import AccountRole
 from utils.schemas.base_schema import BaseSchema, BaseResponseSchema, BasePaginationResponseSchema
 
 
 class CreateAccountSchema(BaseModel):
-    first_name: str
-    last_name: str
+    first_name: str = Field(min_length=1)
+    last_name: str = Field(min_length=1)
     role: AccountRole
-    phone: str
-    username: str
-    image: Optional[AnyHttpUrl] = None
-    password: str
+    phone: str = Field(min_length=1)
+    username: str = Field(min_length=1)
+    image: Optional[AnyHttpUrl] = Field(default=None, min_length=1)
+    password: str = Field(min_length=1)
 
     # @field_validator('phone')
     # @classmethod
@@ -28,14 +28,14 @@ class CreateAccountModelSchema(CreateAccountSchema):
     password_change_required: bool
 
 class UpdateAccountSchema(BaseModel):
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    role: Optional[AccountRole] = None
-    phone: Optional[str] = None
-    username: Optional[str] = None
-    image: Optional[AnyHttpUrl] = None
-    password: Optional[str] = None
-    is_active: Optional[bool] = None
+    first_name: Optional[str] = Field(default=None, min_length=1)
+    last_name: Optional[str] = Field(default=None, min_length=1)
+    role: Optional[AccountRole] = Field(default=None)
+    phone: Optional[str] = Field(default=None, min_length=1)
+    username: Optional[str] = Field(default=None, min_length=1)
+    image: Optional[AnyHttpUrl] = Field(default=None, min_length=1)
+    password: Optional[str] = Field(default=None, min_length=1)
+    is_active: Optional[bool] = Field(default=None)
 
     # @field_validator('phone')
     # @classmethod
