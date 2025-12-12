@@ -1,7 +1,7 @@
 from typing import Optional, List, Tuple
 from uuid import UUID
 
-from sqlalchemy import select, func, delete, update
+from sqlalchemy import select, func, delete, update, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
@@ -19,8 +19,43 @@ class ItemRepository:
     def _base_query():
         return select(ItemModel)
 
-    async def by_pagination(self, search: str, limit: int, offset: int) -> Tuple[List[ItemModel], int]:
+    async def by_pagination(
+            self,
+            search: str,
+            limit: int,
+            offset: int,
+            category_id: Optional[UUID],
+            color_id: Optional[UUID],
+            currency_id: Optional[UUID],
+            size_id: Optional[UUID],
+            tax_id: Optional[UUID],
+            unit_id: Optional[UUID],
+    ) -> Tuple[List[ItemModel], int]:
         query = self._base_query()
+
+        if search:
+            query = query.where(
+                or_(
+                    ItemModel.name.ilike(f"%{search}%"),
+                    ItemModel.code.ilike(f"%{search}%"),
+                    ItemModel.description.ilike(f"%{search}%"),
+                )
+            )
+        if category_id:
+            query = query.where(ItemModel.category_id ==category_id) # type: ignore
+        if currency_id:
+            query = query.where(ItemModel.currency_id ==currency_id) # type: ignore
+        if color_id:
+            query = query.where(ItemModel.color_id ==color_id) # type: ignore
+        if currency_id:
+            query = query.where(ItemModel.currency_id ==currency_id) # type: ignore
+        if size_id:
+            query = query.where(ItemModel.size_id ==size_id) # type: ignore
+        if tax_id:
+            query = query.where(ItemModel.tax_id ==tax_id) # type: ignore
+        if unit_id:
+            query = query.where(ItemModel.unit_id ==unit_id) # type: ignore
+
         query = query.order_by(ItemModel.created_at.desc())  # type: ignore
 
         count_query = select(func.count()).select_from(query.subquery())

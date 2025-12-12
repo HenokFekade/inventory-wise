@@ -1,5 +1,6 @@
 import asyncio
-from typing import List
+from typing import List, Optional
+from uuid import UUID
 
 from apps.category.repositories.category import CategoryRepository
 from apps.color.repositories.color import ColorRepository
@@ -65,8 +66,29 @@ class ItemService:
         )
         return ItemFormResponseSchema(data=data)
 
-    async def index(self, search: str, per_page: int, page: int) -> ItemsResponseSchema:
-        result, total = await self._repo.by_pagination(offset=page, search=search, limit=per_page)
+    async def index(
+            self,
+            search: str,
+            per_page: int,
+            page: int,
+            category_id: Optional[UUID],
+            color_id: Optional[UUID],
+            currency_id: Optional[UUID],
+            size_id: Optional[UUID],
+            tax_id: Optional[UUID],
+            unit_id: Optional[UUID],
+    ) -> ItemsResponseSchema:
+        result, total = await self._repo.by_pagination(
+            offset=page,
+            search=search,
+            limit=per_page,
+            category_id=category_id,
+            color_id=color_id,
+            currency_id=currency_id,
+            size_id=size_id,
+            tax_id=tax_id,
+            unit_id=unit_id,
+        )
         data = [ItemSchema.model_validate(value) for value in result]
         return ItemsResponseSchema(data=data, total=total, page=page, per_page=per_page)
 

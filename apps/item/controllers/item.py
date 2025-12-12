@@ -1,3 +1,6 @@
+from typing import Optional
+from uuid import UUID
+
 from apps.item.models.item import ItemModel
 from apps.item.schemas.item import ItemsResponseSchema, ItemResponseSchema, CreateItemSchema, \
     UpdateItemSchema, ItemFormResponseSchema, ItemDetailResponseSchema
@@ -8,8 +11,29 @@ class ItemController:
     def __init__(self, service: ItemService):
         self._service = service
 
-    async def index(self, search: str, per_page: int, page: int) -> ItemsResponseSchema:
-        return await self._service.index(search=search, per_page=per_page, page=page)
+    async def index(
+            self,
+            search: str,
+            per_page: int,
+            page: int,
+            category_id: Optional[UUID],
+            color_id: Optional[UUID],
+            currency_id: Optional[UUID],
+            size_id: Optional[UUID],
+            tax_id: Optional[UUID],
+            unit_id: Optional[UUID],
+    ) -> ItemsResponseSchema:
+        return await self._service.index(
+            search=search,
+            per_page=per_page,
+            page=page,
+            category_id=category_id,
+            color_id=color_id,
+            currency_id=currency_id,
+            size_id=size_id,
+            tax_id=tax_id,
+            unit_id=unit_id,
+        )
 
     async def form(self) -> ItemFormResponseSchema:
         return await self._service.form()

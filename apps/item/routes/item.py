@@ -1,4 +1,5 @@
 from typing import Optional
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query
 
@@ -19,9 +20,25 @@ async def index(
         page: int = Query(default=1, ge=1),
         per_page: int = Query(default=10, ge=1, alias="per-page"),
         search: Optional[str] = Query(default=""),
+        category_id: Optional[UUID] = Query(default=None),
+        color_id: Optional[UUID] = Query(default=None),
+        currency_id: Optional[UUID] = Query(default=None),
+        size_id: Optional[UUID] = Query(default=None),
+        tax_id: Optional[UUID] = Query(default=None),
+        unit_id: Optional[UUID] = Query(default=None),
         controller: ItemController = Depends(item_controller_dep),
 ):
-    return await controller.index(search=search, per_page=per_page, page=page)
+    return await controller.index(
+        search=search,
+        per_page=per_page,
+        page=page,
+        category_id=category_id,
+        color_id=color_id,
+        currency_id=currency_id,
+        size_id=size_id,
+        tax_id=tax_id,
+        unit_id=unit_id,
+    )
 
 
 @item_router.get("/form", response_model=ItemFormResponseSchema)
